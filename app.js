@@ -119,6 +119,7 @@ router.addRoute('/moose/:name', function (req, res, params) {
                         if (row.count != 0) {
                             res.statusCode = 409; // specifies existing moose
                             return res.end('{"error":"moose already exists"}');
+                            
                         }
                         let data = {
                             name: params.name,
@@ -129,6 +130,7 @@ router.addRoute('/moose/:name', function (req, res, params) {
                             .on('end', () => { res.end('{"success":"created new moose"}'); connection.release(); })
                             .on('error', err => error(res, err));
                     })
+                    .on('end', () => connection.release())
                     .on('error', err => error(res, err));
             });
         });
